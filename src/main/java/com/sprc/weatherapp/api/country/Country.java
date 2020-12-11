@@ -1,28 +1,29 @@
-package com.sprc.weatherapp.country;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sprc.weatherapp.city.City;
-
+package com.sprc.weatherapp.api.country;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "countries")
+@Table(name = "countries", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"name"})
+})
 public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String name;
+
+    @NotNull
     private Double latitude;
+
+    @NotNull
     private Double longitude;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn
-    private List<City> cities = new ArrayList<>();
+    public Long getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -46,5 +47,15 @@ public class Country {
 
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
+    }
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
     }
 }
