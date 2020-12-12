@@ -16,8 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static com.sprc.weatherapp.api.country.CountryUtils.build404Message;
-
 @RestController
 public class CityController {
 
@@ -93,7 +91,7 @@ public class CityController {
     public ResponseEntity<ResponseMessage> deleteCity(@PathVariable("id") Long id) {
         Optional<City> cityDb = cityRepository.findById(id);
         if (cityDb.isEmpty()) {
-            throw new ResourceNotFoundException(build404Message(id));
+            throw new ResourceNotFoundException(CityUtils.build404Message(id));
         }
         cityRepository.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("City with id " + id + " was deleted successfully"));
