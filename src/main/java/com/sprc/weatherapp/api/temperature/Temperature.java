@@ -23,7 +23,7 @@ public class Temperature {
     private LocalDateTime timestamp;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name="city_id", referencedColumnName = "id")
+    @JoinColumn(name = "city_id", referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private City city;
 
@@ -36,6 +36,9 @@ public class Temperature {
     @NotNull
     private Double longitude;
 
+    public Long getId() {
+        return id;
+    }
 
     public City getCity() {
         return city;

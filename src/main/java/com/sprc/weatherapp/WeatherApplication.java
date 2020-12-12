@@ -30,30 +30,30 @@ public class WeatherApplication {
         SpringApplication.run(WeatherApplication.class, args);
     }
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void writeToDb() {
-        Country country = new Country();
-        country.setLatitude(1231.1);
-        country.setLongitude(12312.32);
-        country.setName("aaaaaa");
-
-        countryRepository.save(country);
-        List<Country> list = countryRepository.findAll();
-
-        City city = new City();
-        city.setLatitude(123.1);
-        city.setLongitude(123.1);
-        city.setCountry(list.get(0));
-
-        cityRepository.save(city);
-
-        Temperature temp = new Temperature();
-        temp.setLongitude(12.3);
-        temp.setLatitude(231.11);
-        temp.setCity(cityRepository.findAll().get(0));
-
-        temperatureRepository.save(temp);
-        Temperature tempss = temperatureRepository.findAll().get(0);
-        System.out.println(tempss);
-    }
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void writeToDb() {
+//        Country country = new Country();
+//        country.setLatitude(1231.1);
+//        country.setLongitude(12312.32);
+//        country.setName("aaaaaa");
+//
+//        countryRepository.save(country);
+//        List<Country> list = countryRepository.findAll();
+//
+//        City city = new City();
+//        city.setLatitude(123.1);
+//        city.setLongitude(123.1);
+//        city.setCountry(list.get(0));
+//
+//        cityRepository.save(city);
+//
+//        Temperature temp = new Temperature();
+//        temp.setLongitude(12.3);
+//        temp.setLatitude(231.11);
+//        temp.setCity(cityRepository.findAll().get(0));
+//
+//        temperatureRepository.save(temp);
+//        Temperature tempss = temperatureRepository.findAll().get(0);
+//        System.out.println(tempss);
+//    }
 }

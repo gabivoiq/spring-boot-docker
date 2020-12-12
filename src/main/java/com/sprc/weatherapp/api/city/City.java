@@ -1,5 +1,8 @@
 package com.sprc.weatherapp.api.city;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sprc.weatherapp.api.country.Country;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -9,7 +12,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "cities", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"country_id"})
+        @UniqueConstraint(columnNames = {"country_id", "name"})
 })
 public class City {
 
@@ -17,10 +20,17 @@ public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
-    @JoinColumn(name="country_id", referencedColumnName = "id")
+    @JoinColumn(name = "country_id", referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Country country;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Transient
+    @NotNull
+    @JsonProperty(value = "country_id")
+    private Long countryId;
 
     @NotNull
     private String name;
@@ -30,6 +40,18 @@ public class City {
 
     @NotNull
     private Double latitude;
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getCountryId() {
+        return countryId;
+    }
+
+    public void setCountryId(Long countryId) {
+        this.countryId = countryId;
+    }
 
     public Country getCountry() {
         return country;

@@ -1,7 +1,5 @@
-package com.sprc.weatherapp.exceptions;
+package com.sprc.weatherapp.api.exceptions;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 public class ResourceNotFoundException extends RuntimeException {
 
