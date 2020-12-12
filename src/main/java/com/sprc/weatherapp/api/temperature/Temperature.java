@@ -1,5 +1,8 @@
 package com.sprc.weatherapp.api.temperature;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sprc.weatherapp.api.city.City;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
@@ -20,21 +23,31 @@ public class Temperature {
     private Long id;
 
     @CreationTimestamp
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime timestamp;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "city_id", referencedColumnName = "id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private City city;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Transient
+    @NotNull
+    @JsonProperty(value = "city_id")
+    private Long cityId;
+
     @NotNull
     private Double value;
 
-    @NotNull
-    private Double latitude;
+    public Long getCityId() {
+        return cityId;
+    }
 
-    @NotNull
-    private Double longitude;
+    public void setCityId(Long cityId) {
+        this.cityId = cityId;
+    }
 
     public Long getId() {
         return id;
@@ -56,31 +69,7 @@ public class Temperature {
         this.value = value;
     }
 
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    @Override
-    public String toString() {
-        return "Temperature{" +
-                "id=" + id +
-                ", timestamp=" + timestamp +
-                ", city=" + city +
-                ", value=" + value +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                '}';
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 }

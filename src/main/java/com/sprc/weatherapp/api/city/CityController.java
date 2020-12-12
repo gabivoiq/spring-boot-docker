@@ -6,6 +6,7 @@ import com.sprc.weatherapp.api.country.CountryUtils;
 import com.sprc.weatherapp.api.exceptions.ConflictException;
 import com.sprc.weatherapp.api.exceptions.ResourceNotFoundException;
 import com.sprc.weatherapp.api.exceptions.ResponseMessage;
+import com.sprc.weatherapp.api.utils.TypeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,7 +49,11 @@ public class CityController {
     }
 
     @GetMapping("/cities/country/{country_id}")
-    public ResponseEntity<List<City>> getCitiesFromCountry(@PathVariable("country_id") Long countryId) {
+    public ResponseEntity<List<City>> getCitiesFromCountry(@PathVariable("country_id") String countryIdStr) {
+        if(!TypeUtils.isValidLong(countryIdStr)) {
+            return ResponseEntity.status(HttpStatus.OK).body(new ArrayList<>());
+        }
+        Long countryId = Long.parseLong(countryIdStr);
         Optional<Country> countryOptional = countryRepository.findById(countryId);
         if (countryOptional.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body(new ArrayList<>());
